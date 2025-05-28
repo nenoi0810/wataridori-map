@@ -1,0 +1,34 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # またはデプロイのトリガーにしたいブランチ名
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # プロジェクトで使用しているNode.jsのバージョンに合わせてください
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
+          # publish_branch: gh-pages # デフォルトでgh-pagesなので省略可能
+          # user_name: 'github-actions[bot]' # コミットユーザー名（オプション）
+          # user_email: 'github-actions[bot]@users.noreply.github.com' # コミットユーザーのメールアドレス（オプション）
+          # commit_message: ${{ github.event.head_commit.message }} # コミットメッセージ（オプション）

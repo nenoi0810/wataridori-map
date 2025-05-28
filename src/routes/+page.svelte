@@ -46,7 +46,7 @@
 		<CircleLayer
 			id="observations"
 			paint={{
-				'circle-color': '#FF0000',
+				'circle-color': '#00BFFF',
 				'circle-radius': 5
 			}}
 		/>

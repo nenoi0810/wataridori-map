@@ -1,11 +1,5 @@
 <script lang="ts">
-	import {
-		CircleLayer,
-		GeoJSONSource,
-		ImageLoader,
-		MapLibre,
-		SymbolLayer
-	} from 'svelte-maplibre-gl';
+	import { GeoJSONSource, ImageLoader, MapLibre, SymbolLayer } from 'svelte-maplibre-gl';
 	import observasion from '$lib/observation.json';
 
 	import { observationData, speciesList } from '$lib/loadcsv';
@@ -23,6 +17,7 @@
 	const iconSize = $derived(() => {
 		let expression: any = ['case'];
 		Object.keys(observationData).forEach((key) => {
+			// @ts-ignore
 			const data = observationData[key]?.[yearmonth()]?.[selectedOption] ?? 0;
 			expression.push(
 				['==', ['get', 'id'], Number(key)],
@@ -31,6 +26,33 @@
 			);
 		});
 		expression.push(0);
+		return expression;
+	});
+
+	const textField = $derived(() => {
+		let expression: any = ['case'];
+		Object.keys(observationData).forEach((key) => {
+			// @ts-ignore
+			const data = observationData[key]?.[yearmonth()]?.[selectedOption] ?? 0;
+			expression.push(
+				['==', ['get', 'id'], Number(key)],
+				// @ts-ignore
+				['literal', `${Math.round(data)}`]
+			);
+		});
+		expression.push('');
+		return expression;
+	});
+
+	const filter = $derived(() => {
+		// > 0
+		let expression: any = ['case'];
+		Object.keys(observationData).forEach((key) => {
+			// @ts-ignore
+			const data = observationData[key]?.[yearmonth()]?.[selectedOption] ?? 0;
+			expression.push(['==', ['get', 'id'], Number(key)], ['>', data, 0]);
+		});
+		expression.push(true);
 		return expression;
 	});
 
@@ -56,6 +78,7 @@
 	class="h-[calc(100vh-64px)] w-full"
 	style={{
 		version: 8,
+		glyphs: 'https://mierune.github.io/fonts/{fontstack}/{range}.pbf',
 		sources: {
 			osm: {
 				type: 'raster',
@@ -74,7 +97,7 @@
 		]
 	}}
 >
-	<GeoJSONSource data={observasion}>
+	<GeoJSONSource data={observasion as any}>
 		<ImageLoader
 			images={{
 				hakutyo: './hakutyo.PNG'
@@ -85,8 +108,17 @@
 					'icon-image': 'hakutyo',
 					'icon-rotate': 180,
 					'icon-size': iconSize(),
-					'icon-overlap': 'always'
+					'text-font': ['Noto Sans CJK JP Regular'],
+					'text-field': textField(),
+					'icon-allow-overlap': true,
+					'text-allow-overlap': true
 				}}
+				paint={{
+					'text-halo-width': 1,
+					'text-color': '#f00',
+					'text-halo-color': '#fff'
+				}}
+				filter={filter()}
 			/>
 		</ImageLoader>
 	</GeoJSONSource>

@@ -45,6 +45,8 @@ interface MonthlyData {
 // CSVデータを月別に整形する関数（複数のCSVファイルを統合処理）
 function transformToMonthlyData(...csvStrings: string[]): MonthlyData {
 	const result: MonthlyData = {};
+	// 観測回数をカウントするための補助データ
+	const observationCounts: { [yearMonth: string]: { [species: string]: number } } = {};
 
 	// 各CSVファイルを順次処理
 	csvStrings.forEach((csvString) => {
@@ -83,23 +85,37 @@ function transformToMonthlyData(...csvStrings: string[]): MonthlyData {
 						// 月別データの初期化
 						if (!result[yearMonth]) {
 							result[yearMonth] = {};
+							observationCounts[yearMonth] = {};
 						}
 
 						// 同じ種の複数の観測データがある場合は合計する
 						if (result[yearMonth][cleanSpeciesName]) {
 							result[yearMonth][cleanSpeciesName] += Number(value);
+							observationCounts[yearMonth][cleanSpeciesName]++;
 						} else {
 							result[yearMonth][cleanSpeciesName] = Number(value);
+							observationCounts[yearMonth][cleanSpeciesName] = 1;
 						}
 
 						// 月別の全種類のカウントの合計値
 						if (!result[yearMonth]['total']) {
 							result[yearMonth]['total'] = 0;
+							observationCounts[yearMonth]['total'] = 0;
 						}
 						result[yearMonth]['total'] += Number(value);
+						observationCounts[yearMonth]['total']++;
 					}
 				}
 			});
+		});
+	});
+
+	// 合計値を観測回数で割って平均値を計算
+	Object.keys(result).forEach((yearMonth) => {
+		Object.keys(result[yearMonth]).forEach((species) => {
+			const totalValue = result[yearMonth][species];
+			const count = observationCounts[yearMonth][species];
+			result[yearMonth][species] = totalValue / count;
 		});
 	});
 

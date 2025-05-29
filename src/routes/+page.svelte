@@ -1,5 +1,11 @@
 <script lang="ts">
-	import { CircleLayer, GeoJSONSource, MapLibre } from 'svelte-maplibre-gl';
+	import {
+		CircleLayer,
+		GeoJSONSource,
+		ImageLoader,
+		MapLibre,
+		SymbolLayer
+	} from 'svelte-maplibre-gl';
 	import observasion from '$lib/observation.json';
 
 	import { observationData, speciesList } from '$lib/loadcsv';
@@ -55,17 +61,24 @@
 	}}
 >
 	<GeoJSONSource data={observasion}>
-		<CircleLayer
-			id="observations"
-			paint={{
-				'circle-color': '#00BFFF',
-				'circle-radius': [
-					'case',
-					['==', ['get', 'id'], 2],
-					['sqrt', observationData['2']?.[yearmonth()]?.[selectedOption] ?? 0],
-					0
-				]
+		<ImageLoader
+			images={{
+				hakutyo: './hakutyo.PNG'
 			}}
-		/>
+		>
+			<SymbolLayer
+				layout={{
+					'icon-image': 'hakutyo',
+					'icon-rotate': 180,
+					'icon-size': [
+						'case',
+						['==', ['get', 'id'], 2],
+						['*', 0.01, ['ln', observationData['2']?.[yearmonth()]?.[selectedOption] ?? 0]],
+						0
+					],
+					'icon-overlap': 'always'
+				}}
+			/>
+		</ImageLoader>
 	</GeoJSONSource>
 </MapLibre>

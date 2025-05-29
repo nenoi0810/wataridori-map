@@ -45,9 +45,7 @@ interface MonthlyData {
 // CSVデータを月別に整形する関数（複数のCSVファイルを統合処理）
 function transformToMonthlyData(...csvStrings: string[]): MonthlyData {
 	const result: MonthlyData = {};
-	// 観測回数をカウントするための補助データ
-	const observationCounts: { [yearMonth: string]: { [species: string]: number } } = {};
-
+	const yearMonthCounts: { [yearMonth: string]: number } = {};
 	// 各CSVファイルを順次処理
 	csvStrings.forEach((csvString) => {
 		if (!csvString) return;
@@ -68,6 +66,17 @@ function transformToMonthlyData(...csvStrings: string[]): MonthlyData {
 		// memo: 元データの構造を踏襲しているので「調査年月日」というカラム名だが、本来は「種族名」あたりが正しい
 		const dateColumns = headers.filter((header) => header !== '調査年月日' && header.includes('/'));
 
+		dateColumns.forEach((dateCol) => {
+			const dateParts = dateCol.split('/');
+			if (dateParts.length >= 2) {
+				const yearMonth = `${dateParts[0]}-${dateParts[1].padStart(2, '0')}`;
+				if (!yearMonthCounts[yearMonth]) {
+					yearMonthCounts[yearMonth] = 0;
+				}
+				yearMonthCounts[yearMonth]++;
+			}
+		});
+
 		rows.forEach((row: any) => {
 			if (!row['調査年月日']) return;
 
@@ -85,25 +94,20 @@ function transformToMonthlyData(...csvStrings: string[]): MonthlyData {
 						// 月別データの初期化
 						if (!result[yearMonth]) {
 							result[yearMonth] = {};
-							observationCounts[yearMonth] = {};
 						}
 
 						// 同じ種の複数の観測データがある場合は合計する
 						if (result[yearMonth][cleanSpeciesName]) {
 							result[yearMonth][cleanSpeciesName] += Number(value);
-							observationCounts[yearMonth][cleanSpeciesName]++;
 						} else {
 							result[yearMonth][cleanSpeciesName] = Number(value);
-							observationCounts[yearMonth][cleanSpeciesName] = 1;
 						}
 
 						// 月別の全種類のカウントの合計値
 						if (!result[yearMonth]['total']) {
 							result[yearMonth]['total'] = 0;
-							observationCounts[yearMonth]['total'] = 0;
 						}
 						result[yearMonth]['total'] += Number(value);
-						observationCounts[yearMonth]['total']++;
 					}
 				}
 			});
@@ -114,7 +118,7 @@ function transformToMonthlyData(...csvStrings: string[]): MonthlyData {
 	Object.keys(result).forEach((yearMonth) => {
 		Object.keys(result[yearMonth]).forEach((species) => {
 			const totalValue = result[yearMonth][species];
-			const count = observationCounts[yearMonth][species];
+			const count = yearMonthCounts[yearMonth] || 1; // 観測回数が0の場合は1で割る
 			result[yearMonth][species] = totalValue / count;
 		});
 	});

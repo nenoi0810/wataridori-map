@@ -113,10 +113,11 @@
 	<div class="flex items-start justify-between">
 		<div>
 			<h1
-				class="bg-gradient-to-r bg-clip-text text-3xl font-bold tracking-wide text-green-700 drop-shadow-lg"
+				class="bg-gradient-to-r bg-clip-text text-3xl font-bold tracking-wide text-gray-600 drop-shadow-lg"
 			>
-				🦅 Wataridori Map
+				W a t a r i d o r i　M a p
 			</h1>
+
 			<div class="flex items-center">
 				<p class="mt-2 text-sm text-gray-700 opacity-80">渡り鳥観測データの可視化</p>
 				<button
@@ -135,7 +136,7 @@
 >
 	<button
 		onclick={() => (selectedOption = 'total')}
-		class={`btn btn-primary mr-2 rounded-lg ${selectedOption === 'total' ? 'bg-green-400' : ''}`}
+		class={`btn btn-primary mr-2 rounded-lg ${selectedOption === 'total' ? 'bg-[#c1c787]' : ''}`}
 		disabled={selectedOption === 'total'}
 	>
 		全種合計
@@ -145,7 +146,7 @@
 		{#each speciesList as species}
 			<button
 				onclick={() => (selectedOption = species)}
-				class={`btn btn-primary mr-2 rounded-lg ${selectedOption === species ? 'bg-green-400' : ''}`}
+				class={`btn btn-primary mr-2 rounded-lg ${selectedOption === species ? 'bg-[#c1c787]' : ''}`}
 				disabled={selectedOption === species}
 			>
 				{species}
@@ -191,7 +192,7 @@
 	<GeoJSONSource data={observasion as any}>
 		<ImageLoader
 			images={{
-				hakutyo: './hakutyo.PNG'
+				hakutyo: './swanicon2.PNG'
 			}}
 		>
 			<SymbolLayer
@@ -205,7 +206,7 @@
 				}}
 				paint={{
 					'text-halo-width': 2,
-					'text-color': '#2a2',
+					'text-color': '#44730f',
 					'text-halo-color': '#fff'
 				}}
 				filter={filter()}

@@ -90,25 +90,25 @@
 <div class="grid w-full grid-cols-1">
 	<div class="controls">
 		<button class="prev-button" onclick={prev} disabled={value <= range[0]}>
-			<svg viewBox="0 0 24 24" width="24" height="24">
+			<svg viewBox="0 0 24 24" width="36" height="36">
 				<path d={mdiSkipPrevious} fill="currentColor" />
 			</svg>
 		</button>
 		{#if !isPlaying}
 			<button class="play-button" onclick={play}>
-				<svg viewBox="0 0 24 24" width="24" height="24">
+				<svg viewBox="0 0 24 24" width="36" height="36">
 					<path d={mdiPlay} fill="currentColor" />
 				</svg>
 			</button>
 		{:else}
 			<button class="pause-button" onclick={pause}>
-				<svg viewBox="0 0 24 24" width="24" height="24">
+				<svg viewBox="0 0 24 24" width="36" height="36">
 					<path d={mdiPause} fill="currentColor" />
 				</svg>
 			</button>
 		{/if}
 		<button class="next-button" onclick={next} disabled={value >= range[1]}>
-			<svg viewBox="0 0 24 24" width="24" height="24">
+			<svg viewBox="0 0 24 24" width="36" height="36">
 				<path d={mdiSkipNext} fill="currentColor" />
 			</svg>
 		</button>
@@ -176,11 +176,11 @@
 	.pause-button,
 	.prev-button,
 	.next-button {
-		width: 40px;
-		height: 40px;
+		width: 56px;
+		height: 56px;
 		border: none;
 		border-radius: 8px;
-		color: black;
+		color: #292929;
 		font-size: 16px;
 		cursor: pointer;
 		display: flex;
@@ -215,7 +215,7 @@
 		width: 100%;
 		height: 6px;
 		border-radius: 3px;
-		background: #ddd;
+		background: #b8b8b8;
 		outline: none;
 		opacity: 0.7;
 		transition: opacity 0.2s;
@@ -231,12 +231,13 @@
 		appearance: none;
 		width: 24px;
 		height: 24px;
-		background: url('/icon.PNG') no-repeat center center;
+		background: url('/duckicon.PNG') no-repeat center center;
 		background-size: contain;
 		background-color: white;
 		padding: 16px;
 		border-radius: 50%;
-		border: #999 2px solid;
+		/*border: #8f8f8f 2px solid;*/
+		border: rgb(75, 68, 68) 2px solid;
 		cursor: pointer;
 	}
 
@@ -245,10 +246,11 @@
 		width: 24px;
 		height: 24px;
 		border-radius: 50%;
-		background: url('/icon.PNG') no-repeat center center;
+		background: url('/duckicon.PNG') no-repeat center center;
 		background-size: contain;
 		cursor: pointer;
-		border: none;
+		/*border: #8f8f8f 2px solid;*/
+		border: rgb(75, 68, 68) 2px solid;
 	}
 
 	/* Firefox のトラック部分 */
@@ -256,7 +258,7 @@
 		width: 100%;
 		height: 6px;
 		cursor: pointer;
-		background: #ddd;
+		background: #b8b8b8;
 		border-radius: 3px;
 		border: none;
 	}

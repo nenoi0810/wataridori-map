@@ -22,7 +22,16 @@
 			expression.push(
 				['==', ['get', 'id'], Number(key)],
 				// @ts-ignore
-				['*', 0.01, ['ln', data]]
+				[
+					'case',
+					['==', data, 0],
+					0, // 0以下ならサイズ0
+					['<', data, 1],
+					0.02, // 1未満ならそのままサイズ
+					['>', data, 1],
+					['*', 0.01, ['ln', data]], // 1以上なら対数スケールでサイズを決定
+					0
+				]
 			);
 		});
 		expression.push(0);

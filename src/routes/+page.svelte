@@ -121,7 +121,7 @@
 				<p class="mt-2 text-sm text-gray-700 opacity-80">渡り鳥観測データの可視化</p>
 				<button
 					onclick={() => (termsModalOpen = true)}
-					class="ml-4 mt-2 rounded-lg bg-gray-200 px-3 py-1 text-xs text-gray-600 transition-colors hover:bg-gray-300"
+					class="mt-2 ml-4 rounded-lg bg-gray-200 px-3 py-1 text-xs text-gray-600 transition-colors hover:bg-gray-300"
 				>
 					利用規約
 				</button>
@@ -240,25 +240,14 @@
 			<div class="prose max-w-none text-gray-700">
 				<h3>1. データの利用について</h3>
 				<p>
-					本サイトで表示される渡り鳥観測データは、研究・教育目的で提供されています。商用利用については事前にお問い合わせください。
+					本サイトで表示される渡り鳥観測データは、<a
+						href="https://www.env.go.jp/nature/dobutsu/bird_flu/migratory/ap_wr_transit/index.html"
+						>環境省『渡り鳥の飛来状況調査』</a
+					>から取得したデータを加工したものです。月別の集計にあたっては、単月内に複数回の観測が行われている場合はその平均値を用いています。
 				</p>
 
 				<h3>2. 免責事項</h3>
-				<p>
-					本サイトの情報は現状のまま提供されており、その正確性、完全性、有用性について一切の保証をいたしません。
-				</p>
-
-				<h3>3. プライバシー</h3>
-				<p>
-					本サイトでは個人情報の収集は行っておりません。ただし、アクセスログの記録を行う場合があります。
-				</p>
-
-				<h3>4. 変更</h3>
-				<p>
-					本利用規約は予告なく変更される場合があります。最新の規約は本サイトにてご確認ください。
-				</p>
-
-				<p class="mt-6 text-sm text-gray-500">最終更新: 2024年12月</p>
+				<p>本サイトの情報の正確性、完全性、有用性について一切の保証をいたしません。</p>
 			</div>
 			<div class="mt-6 flex justify-end">
 				<button

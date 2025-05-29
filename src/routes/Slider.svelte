@@ -3,10 +3,12 @@
 
 	let {
 		value = $bindable(),
-		range
+		range,
+		formatter
 	}: {
 		value: number;
 		range: [number, number];
+		formatter?: (val: number) => string;
 	} = $props();
 
 	const INTERVAL = 1000;
@@ -15,13 +17,6 @@
 	let isPlaying = $state(false);
 	let intervalId: number | null = null;
 
-	let yearmonth = (val: number) => {
-		const startYear = 2024;
-		const startMonth = 1;
-		const year = Math.floor((val - 1) / 12) + startYear;
-		const month = ((val - 1) % 12) + startMonth;
-		return `${year}/${String(month).padStart(2, '0')}`;
-	};
 
 	$effect(() => {
 		if (sliderContainer) {
@@ -130,7 +125,7 @@
 						   color: {item.distance === 0 ? '#000' : '#666'};
 						   transform: translateX({item.position * 100}px) translateX(-50%);"
 				>
-					{yearmonth(item.value)}
+					{formatter ? formatter(item.value) : item.value}
 				</span>
 			{/each}
 		</div>

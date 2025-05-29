@@ -1,6 +1,7 @@
 import Papa from 'papaparse';
 
 // import csv
+// 2024-2025
 import observe012024 from './2024-2025csv/1.csv?raw';
 import observe022024 from './2024-2025csv/2.csv?raw';
 import observe032024 from './2024-2025csv/3.csv?raw';
@@ -54,6 +55,32 @@ import observe612024 from './2024-2025csv/61.csv?raw';
 import observe622024 from './2024-2025csv/62.csv?raw';
 import observe712024 from './2024-2025csv/71.csv?raw';
 import observe722024 from './2024-2025csv/72.csv?raw';
+// 2023-2024
+import observe012023 from './2023-2024csv/1.csv?raw';
+import observe022023 from './2023-2024csv/2.csv?raw';
+import observe032023 from './2023-2024csv/3.csv?raw';
+import observe042023 from './2023-2024csv/4.csv?raw';
+import observe052023 from './2023-2024csv/5.csv?raw';
+import observe082023 from './2023-2024csv/8.csv?raw';
+import observe092023 from './2023-2024csv/9.csv?raw';
+import observe102023 from './2023-2024csv/10.csv?raw';
+import observe112023 from './2023-2024csv/11.csv?raw';
+import observe122023 from './2023-2024csv/12.csv?raw';
+import observe132023 from './2023-2024csv/13.csv?raw';
+import observe142023 from './2023-2024csv/14.csv?raw';
+import observe152023 from './2023-2024csv/15.csv?raw';
+import observe162023 from './2023-2024csv/16.csv?raw';
+import observe172023 from './2023-2024csv/17.csv?raw';
+import observe182023 from './2023-2024csv/18.csv?raw';
+import observe192023 from './2023-2024csv/19.csv?raw';
+import observe202023 from './2023-2024csv/20.csv?raw';
+import observe212023 from './2023-2024csv/21.csv?raw';
+import observe222023 from './2023-2024csv/22.csv?raw';
+import observe232023 from './2023-2024csv/23.csv?raw';
+import observe612023 from './2023-2024csv/61.csv?raw';
+import observe622023 from './2023-2024csv/62.csv?raw';
+import observe712023 from './2023-2024csv/71.csv?raw';
+import observe722023 from './2023-2024csv/72.csv?raw';
 
 // 月別データの型定義
 interface MonthlyData {
@@ -178,27 +205,27 @@ function getSpeciesList(...csvStrings: string[]): string[] {
 }
 
 const observationData = {
-	'1': transformToMonthlyData(observe012024),
-	'2': transformToMonthlyData(observe022024),
-	'3': transformToMonthlyData(observe032024),
-	'4': transformToMonthlyData(observe042024),
-	'5': transformToMonthlyData(observe052024),
-	'8': transformToMonthlyData(observe082024),
-	'9': transformToMonthlyData(observe092024),
-	'10': transformToMonthlyData(observe102024),
-	'11': transformToMonthlyData(observe112024),
-	'12': transformToMonthlyData(observe122024),
-	'13': transformToMonthlyData(observe132024),
-	'14': transformToMonthlyData(observe142024),
-	'15': transformToMonthlyData(observe152024),
-	'16': transformToMonthlyData(observe162024),
-	'17': transformToMonthlyData(observe172024),
-	'18': transformToMonthlyData(observe182024),
-	'19': transformToMonthlyData(observe192024),
-	'20': transformToMonthlyData(observe202024),
-	'21': transformToMonthlyData(observe212024),
-	'22': transformToMonthlyData(observe222024),
-	'23': transformToMonthlyData(observe232024),
+	'1': transformToMonthlyData(observe012024, observe012023),
+	'2': transformToMonthlyData(observe022024, observe022023),
+	'3': transformToMonthlyData(observe032024, observe032023),
+	'4': transformToMonthlyData(observe042024, observe042023),
+	'5': transformToMonthlyData(observe052024, observe052023),
+	'8': transformToMonthlyData(observe082024, observe082023),
+	'9': transformToMonthlyData(observe092024, observe092023),
+	'10': transformToMonthlyData(observe102024, observe102023),
+	'11': transformToMonthlyData(observe112024, observe112023),
+	'12': transformToMonthlyData(observe122024, observe122023),
+	'13': transformToMonthlyData(observe132024, observe132023),
+	'14': transformToMonthlyData(observe142024, observe142023),
+	'15': transformToMonthlyData(observe152024, observe152023),
+	'16': transformToMonthlyData(observe162024, observe162023),
+	'17': transformToMonthlyData(observe172024, observe172023),
+	'18': transformToMonthlyData(observe182024, observe182023),
+	'19': transformToMonthlyData(observe192024, observe192023),
+	'20': transformToMonthlyData(observe202024, observe202023),
+	'21': transformToMonthlyData(observe212024, observe212023),
+	'22': transformToMonthlyData(observe222024, observe222023),
+	'23': transformToMonthlyData(observe232024, observe232023),
 	'24': transformToMonthlyData(observe242024),
 	'25': transformToMonthlyData(observe252024),
 	'26': transformToMonthlyData(observe262024),
@@ -227,13 +254,14 @@ const observationData = {
 	'50': transformToMonthlyData(observe502024),
 	'51': transformToMonthlyData(observe512024),
 	'52': transformToMonthlyData(observe522024),
-	'61': transformToMonthlyData(observe612024),
-	'62': transformToMonthlyData(observe622024),
-	'71': transformToMonthlyData(observe712024),
-	'72': transformToMonthlyData(observe722024)
+	'61': transformToMonthlyData(observe612024, observe612023),
+	'62': transformToMonthlyData(observe622024, observe622023),
+	'71': transformToMonthlyData(observe712024, observe712023),
+	'72': transformToMonthlyData(observe722024, observe722023)
 };
 
 const speciesList = getSpeciesList(
+	// 2024-2025
 	observe012024,
 	observe022024,
 	observe032024,
@@ -286,7 +314,33 @@ const speciesList = getSpeciesList(
 	observe612024,
 	observe622024,
 	observe712024,
-	observe722024
+	observe722024,
+	// 2023-2024
+	observe012023,
+	observe022023,
+	observe032023,
+	observe042023,
+	observe052023,
+	observe082023,
+	observe092023,
+	observe102023,
+	observe112023,
+	observe122023,
+	observe132023,
+	observe142023,
+	observe152023,
+	observe162023,
+	observe172023,
+	observe182023,
+	observe192023,
+	observe202023,
+	observe212023,
+	observe222023,
+	observe232023,
+	observe612023,
+	observe622023,
+	observe712023,
+	observe722023
 );
 
 export { observationData, speciesList };

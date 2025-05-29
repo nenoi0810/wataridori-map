@@ -9,14 +9,26 @@
 	// 2024-01 = 1, 2024-12 = 12, 2025-01 = 13, ...
 	let sliderValue = $state(9);
 
-	// 整数値 -> 年月文字列
-	let yearmonth = $derived(() => {
-		const startYear = 2024;
+	// 整数値 -> 年月文字列の変換関数
+	export function yearmonthFormatter(val: number): string {
+		const startYear = 2023;
 		const startMonth = 1;
-		const year = Math.floor((sliderValue - 1) / 12) + startYear;
-		const month = ((sliderValue - 1) % 12) + startMonth;
+		const year = Math.floor((val - 1) / 12) + startYear;
+		const month = ((val - 1) % 12) + startMonth;
 		return `${year}-${String(month).padStart(2, '0')}`;
-	});
+	}
+
+	// スライダー表示用の年月フォーマット関数
+	export function yearmonthDisplay(val: number): string {
+		const startYear = 2023;
+		const startMonth = 1;
+		const year = Math.floor((val - 1) / 12) + startYear;
+		const month = ((val - 1) % 12) + startMonth;
+		return `${year}/${String(month).padStart(2, '0')}`;
+	}
+
+	// 整数値 -> 年月文字列
+	let yearmonth = $derived(() => yearmonthFormatter(sliderValue));
 
 	const iconSize = $derived(() => {
 		let expression: any = ['case'];
@@ -94,7 +106,20 @@
 	}
 </script>
 
-<div class="absolute top-4 left-4 z-10 flex flex-col rounded-lg bg-white p-4">
+<div
+	class="xs:block absolute top-4 left-4 z-10 rounded-xl bg-[#ffffff90] p-6 shadow-xl backdrop-blur-sm"
+>
+	<h1
+		class="bg-gradient-to-r bg-clip-text text-3xl font-bold tracking-wide text-green-700 drop-shadow-lg"
+	>
+		🦅 Wataridori Map
+	</h1>
+	<p class="mt-2 text-sm text-gray-700 opacity-80">渡り鳥観測データの可視化</p>
+</div>
+
+<div
+	class="absolute top-36 left-4 z-10 flex flex-col rounded-lg bg-[#ffffff90] p-4 shadow-lg backdrop-blur-sm"
+>
 	<button
 		onclick={() => (selectedOption = 'total')}
 		class={`btn btn-primary mr-2 rounded-lg ${selectedOption === 'total' ? 'bg-green-400' : ''}`}
@@ -118,9 +143,13 @@
 
 <MapLibre
 	bind:map={mapInstance}
-	zoom={5}
-	center={[142, 43]}
+	zoom={4}
+	center={[140, 37]}
 	class="h-screen w-full"
+	maxBounds={[
+		[120, 15], // Southwest corner (longitude, latitude)
+		[150, 55] // Northeast corner (longitude, latitude)
+	]}
 	style={{
 		version: 8,
 		glyphs: 'https://mierune.github.io/fonts/{fontstack}/{range}.pbf',
@@ -155,7 +184,6 @@
 			<SymbolLayer
 				layout={{
 					'icon-image': 'hakutyo',
-					'icon-rotate': 180,
 					'icon-size': iconSize(),
 					'text-font': ['LINESeedJP_OTF_Rg'],
 					'text-field': textField(),
@@ -176,7 +204,7 @@
 	</Popup>
 </MapLibre>
 <div
-	class="absolute bottom-20 left-1/2 flex w-3/4 min-w-[320px] -translate-x-1/2 transform justify-center rounded-lg bg-white p-4"
+	class="absolute bottom-10 left-1/2 flex w-3/4 min-w-[320px] -translate-x-1/2 transform justify-center rounded-lg bg-[#ffffff90] p-4 backdrop-blur-sm"
 >
-	<Slider bind:value={sliderValue} range={[1, 16]} />
+	<Slider bind:value={sliderValue} range={[9, 28]} formatter={yearmonthDisplay} />
 </div>

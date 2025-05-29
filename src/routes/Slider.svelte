@@ -1,11 +1,11 @@
 <script lang="ts">
+	import { mdiPlay, mdiPause, mdiSkipPrevious, mdiSkipNext } from '@mdi/js';
+
 	let {
 		value = $bindable(),
-		popupText,
 		range
 	}: {
 		value: number;
-		popupText?: string;
 		range: [number, number];
 	} = $props();
 
@@ -14,6 +14,14 @@
 	let sliderContainer: HTMLDivElement;
 	let isPlaying = $state(false);
 	let intervalId: number | null = null;
+
+	let yearmonth = (val: number) => {
+		const startYear = 2024;
+		const startMonth = 1;
+		const year = Math.floor((val - 1) / 12) + startYear;
+		const month = ((val - 1) % 12) + startMonth;
+		return `${year}/${String(month).padStart(2, '0')}`;
+	};
 
 	$effect(() => {
 		if (sliderContainer) {
@@ -60,23 +68,108 @@
 			}
 		};
 	});
+
+	// 表示する値の範囲を計算
+	function getVisibleValues() {
+		const visibleCount = 7; // 表示する値の数（現在値 + 左右3つずつ）
+		const halfCount = Math.floor(visibleCount / 2);
+		const values = [];
+
+		// 範囲を拡張して、スライド効果のために余分な値を含める
+		for (let i = -halfCount - 1; i <= halfCount + 1; i++) {
+			const val = value + i;
+			// 範囲外の値はスキップ
+			if (val >= range[0] && val <= range[1]) {
+				values.push({
+					value: val,
+					distance: Math.abs(i),
+					position: i
+				});
+			}
+		}
+
+		return values;
+	}
 </script>
 
 <div class="grid w-full grid-cols-1">
 	<div class="controls">
-		<button class="prev-button" onclick={prev} disabled={value <= range[0]}> ⏮ </button>
-		<button class="play-button" onclick={play} disabled={isPlaying}> ▶ </button>
-		<button class="pause-button" onclick={pause} disabled={!isPlaying}> ⏸ </button>
-		<button class="next-button" onclick={next} disabled={value >= range[1]}> ⏭ </button>
+		<button class="prev-button" onclick={prev} disabled={value <= range[0]}>
+			<svg viewBox="0 0 24 24" width="24" height="24">
+				<path d={mdiSkipPrevious} fill="currentColor" />
+			</svg>
+		</button>
+		{#if !isPlaying}
+			<button class="play-button" onclick={play}>
+				<svg viewBox="0 0 24 24" width="24" height="24">
+					<path d={mdiPlay} fill="currentColor" />
+				</svg>
+			</button>
+		{:else}
+			<button class="pause-button" onclick={pause}>
+				<svg viewBox="0 0 24 24" width="24" height="24">
+					<path d={mdiPause} fill="currentColor" />
+				</svg>
+			</button>
+		{/if}
+		<button class="next-button" onclick={next} disabled={value >= range[1]}>
+			<svg viewBox="0 0 24 24" width="24" height="24">
+				<path d={mdiSkipNext} fill="currentColor" />
+			</svg>
+		</button>
+	</div>
+
+	<div class="value-display">
+		<div class="value-slider">
+			{#each getVisibleValues() as item (item.value)}
+				<span
+					class="value-item"
+					style="opacity: {item.distance > 3 ? 0 : 1 - item.distance * 0.25}; 
+						   font-size: {item.distance === 0 ? '24px' : `${18 - item.distance * 2}px`};
+						   font-weight: {item.distance === 0 ? 'bold' : 'normal'};
+						   color: {item.distance === 0 ? '#000' : '#666'};
+						   transform: translateX({item.position * 100}px) translateX(-50%);"
+				>
+					{yearmonth(item.value)}
+				</span>
+			{/each}
+		</div>
 	</div>
 
 	<div class="slider-container" bind:this={sliderContainer}>
 		<input type="range" min={range[0]} max={range[1]} bind:value />
-		<div class="tooltip">{popupText}</div>
 	</div>
 </div>
 
 <style>
+	.value-display {
+		position: relative;
+		height: 40px;
+		margin-bottom: 20px;
+		overflow: hidden;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.value-slider {
+		position: relative;
+		width: 100%;
+		height: 100%;
+	}
+
+	.value-item {
+		position: absolute;
+		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		min-width: 50px;
+		text-align: center;
+		left: 50%;
+		top: 50%;
+		transform-origin: center;
+		white-space: nowrap;
+		margin-top: -0.5em;
+	}
+
 	.controls {
 		display: flex;
 		gap: 8px;
@@ -141,24 +234,26 @@
 	input[type='range']::-webkit-slider-thumb {
 		-webkit-appearance: none;
 		appearance: none;
-		width: 20px;
-		height: 20px;
-		border-radius: 0; /* 四角形にするために border-radius を 0 に */
-		background: #4caf50;
+		width: 24px;
+		height: 24px;
+		background: url('/icon.PNG') no-repeat center center;
+		background-size: contain;
+		background-color: white;
+		padding: 16px;
+		border-radius: 50%;
+		border: #999 2px solid;
 		cursor: pointer;
-		border: 2px solid #fff;
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 	}
 
 	/* Firefox */
 	input[type='range']::-moz-range-thumb {
-		width: 20px;
-		height: 20px;
-		border-radius: 0; /* 四角形にするために border-radius を 0 に */
-		background: #4caf50;
+		width: 24px;
+		height: 24px;
+		border-radius: 50%;
+		background: url('/icon.PNG') no-repeat center center;
+		background-size: contain;
 		cursor: pointer;
-		border: 2px solid #fff;
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+		border: none;
 	}
 
 	/* Firefox のトラック部分 */
@@ -169,32 +264,5 @@
 		background: #ddd;
 		border-radius: 3px;
 		border: none;
-	}
-
-	.tooltip {
-		position: absolute;
-		top: 30px;
-		left: var(--percentage, 0%);
-		transform: translateX(-50%);
-		background: white;
-		color: #333;
-		padding: 8px 12px;
-		border-radius: 6px;
-		font-size: 12px;
-		white-space: nowrap;
-		z-index: 10;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-		transition: left 0.1s ease;
-	}
-
-	.tooltip::before {
-		content: '';
-		position: absolute;
-		top: -6px;
-		left: 50%;
-		transform: translateX(-50%);
-		border-left: 6px solid transparent;
-		border-right: 6px solid transparent;
-		border-bottom: 6px solid white;
 	}
 </style>

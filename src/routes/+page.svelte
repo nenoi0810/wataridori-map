@@ -178,5 +178,5 @@
 <div
 	class="absolute bottom-20 left-1/2 flex w-3/4 min-w-[320px] -translate-x-1/2 transform justify-center rounded-lg bg-white p-4"
 >
-	<Slider bind:value={sliderValue} popupText={yearmonth()} range={[1, 16]} />
+	<Slider bind:value={sliderValue} range={[1, 16]} />
 </div>

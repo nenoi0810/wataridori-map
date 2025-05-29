@@ -1,5 +1,11 @@
 <script lang="ts">
-	import { CircleLayer, GeoJSONSource, MapLibre } from 'svelte-maplibre-gl';
+	import {
+		CircleLayer,
+		GeoJSONSource,
+		ImageLoader,
+		MapLibre,
+		SymbolLayer
+	} from 'svelte-maplibre-gl';
 	import observasion from '$lib/observation.json';
 
 	import { observationData, speciesList } from '$lib/loadcsv';
@@ -12,6 +18,20 @@
 		const year = Math.floor((sliderValue - 1) / 12) + 2024;
 		const month = ((sliderValue - 1) % 12) + 1;
 		return `${year}-${String(month).padStart(2, '0')}`;
+	});
+
+	const iconSize = $derived(() => {
+		let expression: any = ['case'];
+		Object.keys(observationData).forEach((key) => {
+			const data = observationData[key]?.[yearmonth()]?.[selectedOption] ?? 0;
+			expression.push(
+				['==', ['get', 'id'], Number(key)],
+				// @ts-ignore
+				['*', 0.01, ['ln', data]]
+			);
+		});
+		expression.push(0);
+		return expression;
 	});
 
 	let selectedOption = $state('total');
@@ -33,7 +53,7 @@
 <MapLibre
 	zoom={5}
 	center={[142, 43]}
-	class="h-[400px]"
+	class="h-[calc(100vh-64px)] w-full"
 	style={{
 		version: 8,
 		sources: {
@@ -55,17 +75,19 @@
 	}}
 >
 	<GeoJSONSource data={observasion}>
-		<CircleLayer
-			id="observations"
-			paint={{
-				'circle-color': '#00BFFF',
-				'circle-radius': [
-					'case',
-					['==', ['get', 'id'], 2],
-					['sqrt', observationData['2']?.[yearmonth()]?.[selectedOption] ?? 0],
-					0
-				]
+		<ImageLoader
+			images={{
+				hakutyo: './hakutyo.PNG'
 			}}
-		/>
+		>
+			<SymbolLayer
+				layout={{
+					'icon-image': 'hakutyo',
+					'icon-rotate': 180,
+					'icon-size': iconSize(),
+					'icon-overlap': 'always'
+				}}
+			/>
+		</ImageLoader>
 	</GeoJSONSource>
 </MapLibre>

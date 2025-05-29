@@ -20,6 +20,20 @@
 		return `${year}-${String(month).padStart(2, '0')}`;
 	});
 
+	const iconSize = $derived(() => {
+		let expression: any = ['case'];
+		Object.keys(observationData).forEach((key) => {
+			const data = observationData[key]?.[yearmonth()]?.[selectedOption] ?? 0;
+			expression.push(
+				['==', ['get', 'id'], Number(key)],
+				// @ts-ignore
+				['*', 0.01, ['ln', data]]
+			);
+		});
+		expression.push(0);
+		return expression;
+	});
+
 	let selectedOption = $state('total');
 </script>
 
@@ -39,7 +53,7 @@
 <MapLibre
 	zoom={5}
 	center={[142, 43]}
-	class="h-[400px]"
+	class="h-[calc(100vh-64px)] w-full"
 	style={{
 		version: 8,
 		sources: {
@@ -70,12 +84,7 @@
 				layout={{
 					'icon-image': 'hakutyo',
 					'icon-rotate': 180,
-					'icon-size': [
-						'case',
-						['==', ['get', 'id'], 2],
-						['*', 0.01, ['ln', observationData['2']?.[yearmonth()]?.[selectedOption] ?? 0]],
-						0
-					],
+					'icon-size': iconSize(),
 					'icon-overlap': 'always'
 				}}
 			/>

@@ -2,19 +2,31 @@
 	import { CircleLayer, GeoJSONSource, MapLibre } from 'svelte-maplibre-gl';
 	import observasion from '$lib/observation.json';
 
-	let sliderValue = $state(5);
-	let selectedOption = $state('オオハクチョウ');
+	import { observationData, speciesList } from '$lib/loadcsv';
+
+	// 2024-01 = 1, 2024-12 = 12, 2025-01 = 13, ...
+	let sliderValue = $state(9);
+
+	// 整数値 -> 年月文字列
+	let yearmonth = $derived(() => {
+		const year = Math.floor((sliderValue - 1) / 12) + 2024;
+		const month = ((sliderValue - 1) % 12) + 1;
+		return `${year}-${String(month).padStart(2, '0')}`;
+	});
+
+	let selectedOption = $state('total');
 </script>
 
 <div class="flex">
 	<div>
-		{sliderValue}月:
-		<input type="range" min="1" max="12" bind:value={sliderValue} class="slider" id="myRange" />
+		{yearmonth()}:
+		<input type="range" min="1" max="16" bind:value={sliderValue} class="slider" id="myRange" />
 	</div>
 	<select bind:value={selectedOption} class="select">
-		<option value="オオハクチョウ">オオハクチョウ</option>
-		<option value="コハクチョウ">コハクチョウ</option>
-		<option value="カモ類">カモ類</option>
+		<option value="total">合計</option>
+		{#each speciesList as species}
+			<option value={species}>{species}</option>
+		{/each}
 	</select>
 </div>
 
@@ -47,7 +59,12 @@
 			id="observations"
 			paint={{
 				'circle-color': '#00BFFF',
-				'circle-radius': 5
+				'circle-radius': [
+					'case',
+					['==', ['get', 'id'], 2],
+					['sqrt', observationData['2']?.[yearmonth()]?.[selectedOption] ?? 0],
+					0
+				]
 			}}
 		/>
 	</GeoJSONSource>

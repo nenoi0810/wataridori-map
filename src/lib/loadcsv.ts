@@ -30,6 +30,26 @@ import observe282024 from './2024-2025csv/28.csv?raw';
 import observe292024 from './2024-2025csv/29.csv?raw';
 import observe302024 from './2024-2025csv/30.csv?raw';
 import observe312024 from './2024-2025csv/31.csv?raw';
+import observe322024 from './2024-2025csv/32.csv?raw';
+import observe342024 from './2024-2025csv/34.csv?raw';
+import observe352024 from './2024-2025csv/35.csv?raw';
+import observe362024 from './2024-2025csv/36.csv?raw';
+import observe372024 from './2024-2025csv/37.csv?raw';
+import observe382024 from './2024-2025csv/38.csv?raw';
+import observe392024 from './2024-2025csv/39.csv?raw';
+import observe402024 from './2024-2025csv/40.csv?raw';
+import observe412024 from './2024-2025csv/41.csv?raw';
+import observe422024 from './2024-2025csv/42.csv?raw';
+import observe432024 from './2024-2025csv/43.csv?raw';
+import observe442024 from './2024-2025csv/44.csv?raw';
+import observe452024 from './2024-2025csv/45.csv?raw';
+import observe462024 from './2024-2025csv/46.csv?raw';
+import observe472024 from './2024-2025csv/47.csv?raw';
+import observe482024 from './2024-2025csv/48.csv?raw';
+import observe492024 from './2024-2025csv/49.csv?raw';
+import observe502024 from './2024-2025csv/50.csv?raw';
+import observe512024 from './2024-2025csv/51.csv?raw';
+import observe522024 from './2024-2025csv/52.csv?raw';
 import observe612024 from './2024-2025csv/61.csv?raw';
 import observe622024 from './2024-2025csv/62.csv?raw';
 import observe712024 from './2024-2025csv/71.csv?raw';
@@ -187,6 +207,26 @@ const observationData = {
 	'29': transformToMonthlyData(observe292024),
 	'30': transformToMonthlyData(observe302024),
 	'31': transformToMonthlyData(observe312024),
+	'32': transformToMonthlyData(observe322024),
+	'34': transformToMonthlyData(observe342024),
+	'35': transformToMonthlyData(observe352024),
+	'36': transformToMonthlyData(observe362024),
+	'37': transformToMonthlyData(observe372024),
+	'38': transformToMonthlyData(observe382024),
+	'39': transformToMonthlyData(observe392024),
+	'40': transformToMonthlyData(observe402024),
+	'41': transformToMonthlyData(observe412024),
+	'42': transformToMonthlyData(observe422024),
+	'43': transformToMonthlyData(observe432024),
+	'44': transformToMonthlyData(observe442024),
+	'45': transformToMonthlyData(observe452024),
+	'46': transformToMonthlyData(observe462024),
+	'47': transformToMonthlyData(observe472024),
+	'48': transformToMonthlyData(observe482024),
+	'49': transformToMonthlyData(observe492024),
+	'50': transformToMonthlyData(observe502024),
+	'51': transformToMonthlyData(observe512024),
+	'52': transformToMonthlyData(observe522024),
 	'61': transformToMonthlyData(observe612024),
 	'62': transformToMonthlyData(observe622024),
 	'71': transformToMonthlyData(observe712024),
@@ -222,7 +262,31 @@ const speciesList = getSpeciesList(
 	observe282024,
 	observe292024,
 	observe302024,
-	observe312024
+	observe312024,
+	observe322024,
+	observe342024,
+	observe352024,
+	observe362024,
+	observe372024,
+	observe382024,
+	observe392024,
+	observe402024,
+	observe412024,
+	observe422024,
+	observe432024,
+	observe442024,
+	observe452024,
+	observe462024,
+	observe472024,
+	observe482024,
+	observe492024,
+	observe502024,
+	observe512024,
+	observe522024,
+	observe612024,
+	observe622024,
+	observe712024,
+	observe722024
 );
 
 export { observationData, speciesList };

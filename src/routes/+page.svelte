@@ -87,6 +87,7 @@
 	let popupOpen = $state(false);
 	let popupLnglat = $state({ lng: 0, lat: 0 });
 	let popupContent = $state('');
+	let termsModalOpen = $state(false);
 	function onClick(event: any) {
 		const features = mapInstance?.queryRenderedFeatures(event.point);
 
@@ -109,12 +110,24 @@
 <div
 	class="xs:block absolute top-4 left-4 z-10 rounded-xl bg-[#ffffff90] p-6 shadow-xl backdrop-blur-sm"
 >
-	<h1
-		class="bg-gradient-to-r bg-clip-text text-3xl font-bold tracking-wide text-green-700 drop-shadow-lg"
-	>
-		🦅 Wataridori Map
-	</h1>
-	<p class="mt-2 text-sm text-gray-700 opacity-80">渡り鳥観測データの可視化</p>
+	<div class="flex items-start justify-between">
+		<div>
+			<h1
+				class="bg-gradient-to-r bg-clip-text text-3xl font-bold tracking-wide text-green-700 drop-shadow-lg"
+			>
+				🦅 Wataridori Map
+			</h1>
+			<div class="flex items-center">
+				<p class="mt-2 text-sm text-gray-700 opacity-80">渡り鳥観測データの可視化</p>
+				<button
+					onclick={() => (termsModalOpen = true)}
+					class="ml-4 mt-2 rounded-lg bg-gray-200 px-3 py-1 text-xs text-gray-600 transition-colors hover:bg-gray-300"
+				>
+					利用規約
+				</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 <div
@@ -208,3 +221,53 @@
 >
 	<Slider bind:value={sliderValue} range={[9, 28]} formatter={yearmonthDisplay} />
 </div>
+
+<!-- 利用規約モーダル -->
+{#if termsModalOpen}
+	<div
+		class="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black backdrop-blur-sm"
+	>
+		<div class="max-h-[80vh] w-full max-w-2xl overflow-auto rounded-xl bg-white p-6 shadow-2xl">
+			<div class="mb-4 flex items-center justify-between">
+				<h2 class="text-2xl font-bold text-gray-800">利用規約</h2>
+				<button
+					onclick={() => (termsModalOpen = false)}
+					class="rounded-full bg-gray-200 p-2 transition-colors hover:bg-gray-300"
+				>
+					✕
+				</button>
+			</div>
+			<div class="prose max-w-none text-gray-700">
+				<h3>1. データの利用について</h3>
+				<p>
+					本サイトで表示される渡り鳥観測データは、研究・教育目的で提供されています。商用利用については事前にお問い合わせください。
+				</p>
+
+				<h3>2. 免責事項</h3>
+				<p>
+					本サイトの情報は現状のまま提供されており、その正確性、完全性、有用性について一切の保証をいたしません。
+				</p>
+
+				<h3>3. プライバシー</h3>
+				<p>
+					本サイトでは個人情報の収集は行っておりません。ただし、アクセスログの記録を行う場合があります。
+				</p>
+
+				<h3>4. 変更</h3>
+				<p>
+					本利用規約は予告なく変更される場合があります。最新の規約は本サイトにてご確認ください。
+				</p>
+
+				<p class="mt-6 text-sm text-gray-500">最終更新: 2024年12月</p>
+			</div>
+			<div class="mt-6 flex justify-end">
+				<button
+					onclick={() => (termsModalOpen = false)}
+					class="rounded-lg bg-green-600 px-6 py-2 text-white transition-colors hover:bg-green-700"
+				>
+					閉じる
+				</button>
+			</div>
+		</div>
+	</div>
+{/if}

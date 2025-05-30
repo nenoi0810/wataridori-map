@@ -9,6 +9,23 @@
 	// 2024-01 = 1, 2024-12 = 12, 2025-01 = 13, ...
 	let sliderValue = $state(9);
 
+	// 現在の月のデータが全て0かどうかをチェック
+	function isAllZeroData(yearmonth: string): boolean {
+		let hasNonZeroData = false;
+		Object.keys(observationData).forEach((key) => {
+			// @ts-ignore
+			const locationData = observationData[key]?.[yearmonth];
+			if (locationData) {
+				Object.values(locationData).forEach((value: number) => {
+					if (value > 0) {
+						hasNonZeroData = true;
+					}
+				});
+			}
+		});
+		return !hasNonZeroData;
+	}
+
 	// 整数値 -> 年月文字列の変換関数
 	export function yearmonthFormatter(val: number): string {
 		const startYear = 2023;
@@ -130,6 +147,15 @@
 		</div>
 	</div>
 </div>
+
+<!-- データが存在しない期間の表示 -->
+{#if isAllZeroData(yearmonth())}
+<div class="absolute top-4 left-1/2 -translate-x-1/2 z-20">
+	<div class="bg-red-50 border border-red-200 rounded-lg px-4 py-2 text-red-700">
+		<p class="text-sm font-medium">渡りの終了</p>
+	</div>
+</div>
+{/if}
 
 <div
 	class="absolute top-36 left-4 z-10 flex flex-col rounded-lg bg-[#ffffff90] p-4 shadow-lg backdrop-blur-sm"

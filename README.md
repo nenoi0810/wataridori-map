@@ -1,38 +1,11 @@
-# sv
+# Wataridori Map
+本サイトは、環境省の渡り鳥の飛来状況調査データをもとに、日本の渡り鳥の飛来状況を月ごとに可視化させたものです。
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+## データの利用について
 
-## Creating a project
+本サイトで表示されている渡り鳥観測データは、 [`環境省「渡り鳥の飛来状況調査`](https://www.env.go.jp/nature/dobutsu/bird_flu/migratory/ap_wr_transit/index.html)から取得したデータを加工したものです。
+月別の集計にあたっては、単月内に複数の観測が行われている場合はその平均値を用いています。
 
-If you're seeing this, you've probably already done this step. Congrats!
+## 免責事項
 
-```bash
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+本サイトの情報の正確性、完全性、有用性について一切の保証をいたしません。

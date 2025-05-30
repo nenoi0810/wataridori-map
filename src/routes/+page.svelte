@@ -160,6 +160,7 @@
 	zoom={4}
 	center={[140, 37]}
 	class="h-screen w-full"
+	inlineStyle={`height:100dvh;`}
 	maxBounds={[
 		[120, 15], // Southwest corner (longitude, latitude)
 		[150, 55] // Northeast corner (longitude, latitude)

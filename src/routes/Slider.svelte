@@ -17,7 +17,6 @@
 	let isPlaying = $state(false);
 	let intervalId: number | null = null;
 
-
 	$effect(() => {
 		if (sliderContainer) {
 			const percentage = ((value - range[0]) / (range[1] - range[0])) * 100;
@@ -140,7 +139,7 @@
 	.value-display {
 		position: relative;
 		height: 40px;
-		margin-bottom: 20px;
+		margin-bottom: 12px;
 		overflow: hidden;
 		display: flex;
 		justify-content: center;
@@ -168,7 +167,6 @@
 	.controls {
 		display: flex;
 		gap: 8px;
-		margin-bottom: 16px;
 		justify-content: center;
 	}
 
@@ -176,12 +174,11 @@
 	.pause-button,
 	.prev-button,
 	.next-button {
-		width: 56px;
-		height: 56px;
+		width: 48px;
+		height: 48px;
 		border: none;
 		border-radius: 8px;
 		color: #292929;
-		font-size: 16px;
 		cursor: pointer;
 		display: flex;
 		align-items: center;

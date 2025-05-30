@@ -108,12 +108,12 @@
 </script>
 
 <div
-	class="xs:block absolute top-4 left-4 z-10 rounded-xl bg-[#ffffff90] p-6 shadow-xl backdrop-blur-sm"
+	class="absolute top-2 left-2 z-10 rounded-xl bg-[#ffffff90] p-4 shadow-xl backdrop-blur-sm sm:p-6"
 >
 	<div class="flex items-start justify-between">
 		<div>
 			<h1
-				class="bg-gradient-to-r bg-clip-text text-3xl font-bold tracking-wide text-gray-600 drop-shadow-lg"
+				class="bg-gradient-to-r bg-clip-text text-lg font-bold tracking-wide text-gray-600 drop-shadow-lg sm:text-3xl"
 			>
 				W a t a r i d o r i　M a p
 			</h1>
@@ -132,7 +132,7 @@
 </div>
 
 <div
-	class="absolute top-36 left-4 z-10 flex flex-col rounded-lg bg-[#ffffff90] p-4 shadow-lg backdrop-blur-sm"
+	class="absolute top-28 left-2 z-10 flex flex-col rounded-lg bg-[#ffffff90] p-2 text-xs shadow-lg backdrop-blur-sm sm:top-36 sm:p-4 sm:text-base"
 >
 	<button
 		onclick={() => (selectedOption = 'total')}
@@ -142,7 +142,7 @@
 		全種合計
 	</button>
 	<div class="py-2"></div>
-	<div class="flex h-[400px] flex-col overflow-auto">
+	<div class="flex h-[240px] flex-col gap-1 overflow-auto sm:h-[320px]">
 		{#each speciesList as species}
 			<button
 				onclick={() => (selectedOption = species)}

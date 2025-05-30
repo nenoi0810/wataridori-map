@@ -5,8 +5,8 @@
 </script>
 
 <svelte:head>
-	<title>Wataridori Map</title>
-	<meta name="description" content="渡り鳥観測データの可視化" />
+	<title>Wataridori Map - 渡り鳥観測データの可視化</title>
+	<meta name="description" content="Wataridori Map - 渡り鳥観測データの可視化" />
 </svelte:head>
 
 {@render children()}

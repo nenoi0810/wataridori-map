@@ -62,7 +62,7 @@
 			expression.push(
 				['==', ['get', 'id'], Number(key)],
 				// @ts-ignore
-				['literal', `${Math.round(data)}`]
+				['literal', `${data}`]
 			);
 		});
 		expression.push('');

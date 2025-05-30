@@ -16,8 +16,9 @@
 			// @ts-ignore
 			const locationData = observationData[key]?.[yearmonth];
 			if (locationData) {
-				Object.values(locationData).forEach((value: number) => {
-					if (value > 0) {
+				// @ts-ignore
+				Object.values(locationData).forEach((value) => {
+					if (typeof value === 'number' && value > 0) {
 						hasNonZeroData = true;
 					}
 				});
@@ -125,7 +126,7 @@
 </script>
 
 <div
-	class="absolute top-2 left-2 z-10 rounded-xl bg-[#ffffff90] p-4 shadow-xl backdrop-blur-sm sm:p-6"
+	class="absolute top-2 left-2 z-30 rounded-xl bg-[#ffffff90] p-4 shadow-xl backdrop-blur-sm sm:p-6"
 >
 	<div class="flex items-start justify-between">
 		<div>
@@ -150,15 +151,22 @@
 
 <!-- データが存在しない期間の表示 -->
 {#if isAllZeroData(yearmonth())}
-<div class="absolute top-4 left-1/2 -translate-x-1/2 z-20">
-	<div class="bg-red-50 border border-red-200 rounded-lg px-4 py-2 text-red-700">
-		<p class="text-sm font-medium">渡りの終了</p>
+<div
+	class="fixed inset-0 z-20 flex items-center justify-center bg-gray-500/30 backdrop-blur-[1px]"
+>
+	<div class="mx-4 w-full max-w-md overflow-auto rounded-xl bg-white/95 p-4 shadow-2x1 sm:p-6">
+		<div class="mb-4 flex items-center justify-center">
+			<h2 class="text-xl font-bold text-gray-800 sm:text-2xl">観測状況</h2>
+		</div>
+		<div class="prose max-w-none text-center text-gray-700">
+			<p class="text-sm sm:text-base">この期間は渡り鳥の渡来が終了しています。</p>
+		</div>
 	</div>
 </div>
 {/if}
 
 <div
-	class="absolute top-28 left-2 z-10 flex flex-col rounded-lg bg-[#ffffff90] p-2 text-xs shadow-lg backdrop-blur-sm sm:top-36 sm:p-4 sm:text-base"
+	class="absolute top-28 left-2 z-30 flex flex-col rounded-lg bg-[#ffffff90] p-2 text-xs shadow-lg backdrop-blur-sm sm:top-36 sm:p-4 sm:text-base"
 >
 	<button
 		onclick={() => (selectedOption = 'total')}
@@ -226,7 +234,7 @@
 				layout={{
 					'icon-image': 'hakutyo',
 					'icon-size': iconSize(),
-					'text-font': ['LINESeedJP_OTF_Rg'],
+					'text-font': ['LINESeedJP_OTF_Bd'],
 					'text-field': textField(),
 					'icon-allow-overlap': true,
 					'text-allow-overlap': true
@@ -245,7 +253,7 @@
 	</Popup>
 </MapLibre>
 <div
-	class="absolute bottom-10 left-1/2 flex w-3/4 min-w-[320px] -translate-x-1/2 transform justify-center rounded-lg bg-[#ffffff90] p-4 backdrop-blur-sm"
+	class="absolute bottom-10 left-1/2 flex w-3/4 min-w-[320px] -translate-x-1/2 transform justify-center rounded-lg bg-[#ffffff90] p-4 backdrop-blur-sm z-30"
 >
 	<Slider bind:value={sliderValue} range={[9, 28]} formatter={yearmonthDisplay} />
 </div>

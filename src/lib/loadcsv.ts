@@ -166,7 +166,8 @@ function transformToMonthlyData(...csvStrings: string[]): MonthlyData {
 		Object.keys(result[yearMonth]).forEach((species) => {
 			const totalValue = result[yearMonth][species];
 			const count = yearMonthCounts[yearMonth] || 1; // 観測回数が0の場合は1で割る
-			result[yearMonth][species] = totalValue / count;
+			// roundup
+			result[yearMonth][species] = Math.round((totalValue / count) * 10) / 10;
 		});
 	});
 

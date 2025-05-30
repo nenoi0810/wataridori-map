@@ -159,7 +159,7 @@
 			<h2 class="text-xl font-bold text-gray-800 sm:text-2xl">観測状況</h2>
 		</div>
 		<div class="prose max-w-none text-center text-gray-700">
-			<p class="text-sm sm:text-base">この期間は渡り鳥の渡来が終了しています。</p>
+			<p class="text-sm sm:text-base">この期間は渡り鳥の飛来が終了しています。</p>
 		</div>
 	</div>
 </div>
